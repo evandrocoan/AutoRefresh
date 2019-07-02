@@ -1,6 +1,6 @@
 [
   {
-    "keys": ["ctrl+shift+r"],
+    "keys": ["f5"],
     "command": "reload_current_view_refresh"
   },
 ]

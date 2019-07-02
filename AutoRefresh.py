@@ -31,9 +31,13 @@ class EnableAutoRefreshCommand(sublime_plugin.TextCommand):
 
 class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
 	def run(self):
-		print("Reloading current view...")
 		view = self.window.active_view()
-		view.run_command( 'revert' )
+
+		if view.is_dirty():
+			print("NOT Reloading current view because it is dirty!", refreshThreads)
+		else:
+			print("Reloading current view...", refreshThreads)
+			view.run_command( 'revert' )
 
 class DisableAutoRefreshCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
