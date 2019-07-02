@@ -29,6 +29,12 @@ class EnableAutoRefreshCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		enable_autorefresh_for_view(self.view)
 
+class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
+	def run(self):
+		print("Reloading current view...")
+		view = self.window.active_view()
+		view.run_command( 'revert' )
+
 class DisableAutoRefreshCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		disable_autorefresh_for_view(self.view)
@@ -55,9 +61,9 @@ class AutoRefreshRememberFileCommand(sublime_plugin.TextCommand):
 			#Autorefresh is currently disabled
 			if curFileName in autoRefreshFiles:
 				autoRefreshFiles.remove(curFileName)
-		
+
 		settings.set('files_with_auto_refresh_enabled_on_load', autoRefreshFiles)
-		
+
 
 #Event handler for editor events
 class SublimeEventHandler(sublime_plugin.EventListener):
