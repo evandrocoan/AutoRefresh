@@ -39,6 +39,15 @@ class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
 			print("Reloading current view...", refreshThreads)
 			view.run_command( 'revert' )
 
+			# https://github.com/SublimeTextIssues/Core/issues/2239
+			new_x = 0
+			viewport_height = view.viewport_extent()[1]
+			current_y_position = view.viewport_position()[1]
+
+			# print("viewport_height: %s, current_y_position: %s" % (viewport_height, current_y_position))
+			# if current_y_position > viewport_height:
+			view.set_viewport_position((new_x, current_y_position), False)
+
 class DisableAutoRefreshCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		disable_autorefresh_for_view(self.view)
