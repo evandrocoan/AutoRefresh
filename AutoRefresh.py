@@ -29,6 +29,21 @@ class EnableAutoRefreshCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         enable_autorefresh_for_view(self.view)
 
+
+class ToggleAutoRefreshCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        view = self.view
+        refreshThread = refreshThreads.get( view.id() )
+        # print('refreshThread', refreshThread)
+
+        if refreshThread and refreshThread.enabled:
+            print('Disabling autorefresh for view', view.id())
+            disable_autorefresh_for_view( view )
+
+        else:
+            print('Enabling autorefresh for view', view.id())
+            enable_autorefresh_for_view( self.view )
+
 class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
     def run(self):
         view = self.window.active_view()

@@ -1,6 +1,4 @@
 [
-  {
-    "keys": ["f5"],
-    "command": "reload_current_view_refresh"
-  },
+  { "keys": ["f5"], "command": "reload_current_view_refresh" },
+  { "keys": ["ctrl+shift+f5"], "command": "toggle_auto_refresh" },
 ]
