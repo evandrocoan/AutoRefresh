@@ -8,11 +8,15 @@
 		"command": "disable_auto_refresh"
 	},
 	{
+		"caption": "Autorefresh: Toggle AutoRefresh",
+		"command": "toggle_auto_refresh"
+	},
+	{
 		"caption": "Autorefresh: Remember the current setting for this file",
 		"command": "auto_refresh_remember_file"
 	},
 	{
 		"caption": "Autorefresh: Reload Current View",
 		"command": "reload_current_view_refresh"
-	}
+	},
 ]
