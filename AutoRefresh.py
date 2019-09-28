@@ -4,13 +4,17 @@ import sublime, sublime_plugin
 
 refreshThreads = {}
 
+def status(message, *formatting):
+	print("Autorefresh:", message, " ".join( str( item ) for item in formatting ) )
+	sublime.status_message(message)
+
 #Enables autorefresh for the specified view
 def enable_autorefresh_for_view(view):
     settings = sublime.load_settings('AutoRefresh.sublime-settings')
     refreshRate = settings.get('auto_refresh_rate')
 
     if refreshRate == None or not isinstance(refreshRate, (int, float)):
-        print("Invalid auto_refresh_rate setting, using default 3")
+        status("Invalid auto_refresh_rate setting, using default 3")
         refreshRate = 3
 
     if refreshThreads.get(view.id()) is None or not refreshThreads.get(view.id()).enabled:
@@ -37,11 +41,11 @@ class ToggleAutoRefreshCommand(sublime_plugin.TextCommand):
         # print('refreshThread', refreshThread)
 
         if refreshThread and refreshThread.enabled:
-            print('Disabling autorefresh for view', view.id())
+            status('Disabling autorefresh for view', view.id())
             disable_autorefresh_for_view( view )
 
         else:
-            print('Enabling autorefresh for view', view.id())
+            status('Enabling autorefresh for view', view.id())
             enable_autorefresh_for_view( self.view )
 
 class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
@@ -49,9 +53,9 @@ class ReloadCurrentViewRefreshCommand(sublime_plugin.WindowCommand):
         view = self.window.active_view()
 
         if view.is_dirty():
-            print("NOT Reloading current view because it is dirty!", refreshThreads)
+            status("NOT Reloading current view because it is dirty!", refreshThreads)
         else:
-            print("Reloading current view...", refreshThreads)
+            status("Reloading current view...", refreshThreads)
             view.run_command( 'revert' )
 
             # https://github.com/SublimeTextIssues/Core/issues/2239
@@ -103,7 +107,7 @@ class SublimeEventHandler(sublime_plugin.EventListener):
         autoRefreshFiles = settings.get('files_with_auto_refresh_enabled_on_load')
 
         if autoRefreshFiles is None or not isinstance(autoRefreshFiles, (list)):
-            print("Invalid files_with_auto_refresh_enabled_on_load setting")
+            status("Invalid files_with_auto_refresh_enabled_on_load setting")
             autoRefreshFiles = []
 
         curFileName = view.file_name()
